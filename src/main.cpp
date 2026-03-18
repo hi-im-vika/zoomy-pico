@@ -2,6 +2,12 @@
 #include <U8g2lib.h>
 #include <Wire.h>
 
+#define UART0_BAUD  115200
+#define UART0_TX    0
+#define UART0_RX    1
+#define I2C0_SDA    4
+#define I2C0_SCL    5
+
 U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE);
 
 void u8g2_prepare(void) {
@@ -41,12 +47,12 @@ void draw(void) {
 }
 
 void setup() {
-  Serial1.setTX(0);
-  Serial1.setRX(1);
-  Serial1.begin(115200);
+  Serial1.setTX(UART0_TX);
+  Serial1.setRX(UART0_RX);
+  Serial1.begin(UART0_BAUD);
 
-  Wire.setSDA(4);
-  Wire.setSCL(5);
+  Wire.setSDA(I2C0_SDA);
+  Wire.setSCL(I2C0_SCL);
   Wire.begin();
   
   u8g2.begin();
