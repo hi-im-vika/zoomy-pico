@@ -52,11 +52,9 @@ void loop() {
     draw();
   } while( u8g2.nextPage() );
   
-  // increase the state
-  draw_state++;
-  if ( draw_state >= 2*8 )
+  if(draw_state >= 359) {
     draw_state = 0;
-
-  // delay between each page
-  delay(150);
+  } else{
+    draw_state++;
+  }
 }
