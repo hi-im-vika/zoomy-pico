@@ -1,13 +1,23 @@
 #include <Arduino.h>
 #include "I2Cdev.h"
 #include "MPU6050_6Axis_MotionApps20.h"
+#include <U8g2lib.h>
+#include <Wire.h>
 
+#define UART0_BAUD  115200
+#define UART0_TX    0
+#define UART0_RX    1
 #define I2C0_SCL  21
 #define I2C0_SDA  20
-#define INT       22
+#define I2C1_SDA    2
+#define I2C1_SCL    3
+#define OLED_W      128
+#define OLED_H      64
+#define IMU_INT   22
 
+U8G2_SSD1306_128X64_NONAME_F_2ND_HW_I2C u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE);
 MPU6050 mpu;
-int const INTERRUPT_PIN = INT;  // Define the interruption #0 pin
+int const INTERRUPT_PIN = IMU_INT;  // Define the interruption #0 pin
 
 /*---MPU6050 Control/Status Variables---*/
 bool DMPReady = false;  // Set true if DMP init was successful
@@ -29,15 +39,42 @@ void DMPDataReady() {
   MPUInterrupt = true;
 }
 
+void u8g2_prepare(void) {
+  u8g2.setFont(u8g2_font_6x10_tf);
+  u8g2.setFontRefHeightExtendedText();
+  u8g2.setDrawColor(1);
+  u8g2.setFontPosTop();
+  u8g2.setFontDirection(0);
+}
+
+void u8g2_draw_compass(uint8_t a) {
+  // if(!a) Serial1.printf("Compass demo\n");
+  u8g2.drawCircle(OLED_W/2,OLED_H/2,30);
+  u8g2.drawLine(OLED_W/2,OLED_H/2,OLED_W/2 + (30 * cos(a * M_PI/180.0)), OLED_H/2 - (30 * sin(a * M_PI/180.0)));
+}
+
+uint8_t draw_state = 0;
+
+void draw(void) {
+  u8g2_prepare();
+  u8g2_draw_compass(draw_state);
+}
+
 void setup() {
-  Serial1.setTX(0);
-  Serial1.setRX(1);
-  Serial1.begin(115200);
+  Serial1.setTX(UART0_TX);
+  Serial1.setRX(UART0_RX);
+  Serial1.begin(UART0_BAUD);
 
   Wire.setSDA(I2C0_SDA);
   Wire.setSCL(I2C0_SCL);
   Wire.begin();
   Wire.setClock(400000);
+
+  Wire1.setSDA(I2C1_SDA);
+  Wire1.setSCL(I2C1_SCL);
+  Wire1.begin();
+  
+  u8g2.begin();
 
    /*Initialize device*/
   Serial1.println(F("Initializing I2C devices..."));
@@ -115,5 +152,17 @@ void loop() {
         Serial1.println(ypr[2] * 180/M_PI);
     }
     MPUInterrupt = false;
+  }
+
+  // picture loop  
+  u8g2.firstPage();  
+  do {
+    draw();
+  } while( u8g2.nextPage() );
+  
+  if(draw_state >= 359) {
+    draw_state = 0;
+  } else{
+    draw_state++;
   }
 }
