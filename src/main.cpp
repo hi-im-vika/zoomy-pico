@@ -5,12 +5,12 @@
 #define UART0_BAUD  115200
 #define UART0_TX    0
 #define UART0_RX    1
-#define I2C0_SDA    4
-#define I2C0_SCL    5
+#define I2C1_SDA    2
+#define I2C1_SCL    3
 #define OLED_W      128
 #define OLED_H      64
 
-U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE);
+U8G2_SSD1306_128X64_NONAME_F_2ND_HW_I2C u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE);
 
 void u8g2_prepare(void) {
   u8g2.setFont(u8g2_font_6x10_tf);
@@ -38,9 +38,9 @@ void setup() {
   Serial1.setRX(UART0_RX);
   Serial1.begin(UART0_BAUD);
 
-  Wire.setSDA(I2C0_SDA);
-  Wire.setSCL(I2C0_SCL);
-  Wire.begin();
+  Wire1.setSDA(I2C1_SDA);
+  Wire1.setSCL(I2C1_SCL);
+  Wire1.begin();
   
   u8g2.begin();
 }
