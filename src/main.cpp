@@ -7,6 +7,8 @@
 #define UART0_RX    1
 #define I2C0_SDA    4
 #define I2C0_SCL    5
+#define OLED_W      128
+#define OLED_H      64
 
 U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE);
 
