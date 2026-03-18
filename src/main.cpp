@@ -53,4 +53,17 @@ void setup() {
 }
 
 void loop() {
+  // picture loop  
+  u8g2.firstPage();  
+  do {
+    draw();
+  } while( u8g2.nextPage() );
+  
+  // increase the state
+  draw_state++;
+  if ( draw_state >= 2*8 )
+    draw_state = 0;
+
+  // delay between each page
+  delay(150);
 }
