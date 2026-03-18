@@ -20,22 +20,10 @@ void u8g2_prepare(void) {
   u8g2.setFontDirection(0);
 }
 
-void u8g2_box_title(uint8_t a) {
-  if(!a) Serial1.printf("Box title demo\n");
-  u8g2.drawStr( 10+a*2, 5, "U8g2");
-  u8g2.drawStr( 10, 20, "GraphicsTest");
-  
-  u8g2.drawFrame(0,0,u8g2.getDisplayWidth(),u8g2.getDisplayHeight() );
-}
-
-void u8g2_disc_circle(uint8_t a) {
-  if(!a) Serial1.printf("Disc/circle demo\n");
-  u8g2.drawStr( 0, 0, "drawDisc");
-  u8g2.drawDisc(10,18,9);
-  u8g2.drawDisc(24+a,16,7);
-  u8g2.drawStr( 0, 30, "drawCircle");
-  u8g2.drawCircle(10,18+30,9);
-  u8g2.drawCircle(24+a,16+30,7);
+void u8g2_draw_compass(uint8_t a) {
+  // if(!a) Serial1.printf("Compass demo\n");
+  u8g2.drawCircle(OLED_W/2,OLED_H/2,30);
+  u8g2.drawLine(OLED_W/2,OLED_H/2,OLED_W/2 + (30 * cos(a * M_PI/90.0)), OLED_H/2 - (30 * sin(a * M_PI/90.0)));
 }
 
 uint8_t draw_state = 0;
