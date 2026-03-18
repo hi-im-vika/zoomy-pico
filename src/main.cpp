@@ -98,4 +98,22 @@ void setup() {
 }
 
 void loop() {
+  if (!DMPReady) return; // Stop the program if DMP programming fails.
+    
+  if (MPUInterrupt) {
+    /* Read a packet from FIFO */
+    if (mpu.dmpGetCurrentFIFOPacket(FIFOBuffer)) { // Get the Latest packet 
+        /* Display Euler angles in degrees */
+        mpu.dmpGetQuaternion(&q, FIFOBuffer);
+        mpu.dmpGetGravity(&gravity, &q);
+        mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
+        Serial1.print("ypr\t");
+        Serial1.print(ypr[0] * 180/M_PI);
+        Serial1.print("\t");
+        Serial1.print(ypr[1] * 180/M_PI);
+        Serial1.print("\t");
+        Serial1.println(ypr[2] * 180/M_PI);
+    }
+    MPUInterrupt = false;
+  }
 }
