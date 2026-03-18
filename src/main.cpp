@@ -30,10 +30,7 @@ uint8_t draw_state = 0;
 
 void draw(void) {
   u8g2_prepare();
-  switch(draw_state >> 3) {
-    case 0: u8g2_box_title(draw_state&7); break;
-    case 1: u8g2_disc_circle(draw_state&7); break;
-  }
+  u8g2_draw_compass(draw_state);
 }
 
 void setup() {
