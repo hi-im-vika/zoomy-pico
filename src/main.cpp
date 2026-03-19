@@ -39,6 +39,8 @@ void DMPDataReady() {
   MPUInterrupt = true;
 }
 
+float angle = 0.0;
+
 void u8g2_prepare(void) {
   u8g2.setFont(u8g2_font_6x10_tf);
   u8g2.setFontRefHeightExtendedText();
