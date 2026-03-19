@@ -52,8 +52,9 @@ void u8g2_prepare(void) {
 void u8g2_draw_compass(float a) {
   // if(!a) Serial1.printf("Compass demo\n");
   Serial1.printf("%.2f\n", a);
-  int line_x2 = OLED_W/2 + (30 * cos(a * M_PI/180.0));
-  int line_y2 = OLED_H/2 + (30 * -sin(a * M_PI/180.0));
+  float a_rot = a + 90.0;
+  int line_x2 = OLED_W/2 + (30 * cos(a_rot * M_PI/180.0));
+  int line_y2 = OLED_H/2 + (30 * -sin(a_rot * M_PI/180.0));
   u8g2.drawCircle(OLED_W/2,OLED_H/2,30);
   u8g2.drawLine(OLED_W/2,OLED_H/2,line_x2, line_y2);
 }
