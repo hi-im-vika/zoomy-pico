@@ -53,11 +53,11 @@ void u8g2_draw_compass(uint8_t a) {
   u8g2.drawLine(OLED_W/2,OLED_H/2,OLED_W/2 + (30 * cos(a * M_PI/180.0)), OLED_H/2 - (30 * sin(a * M_PI/180.0)));
 }
 
-uint8_t draw_state = 0;
+float angle = 0;
 
 void draw(void) {
   u8g2_prepare();
-  u8g2_draw_compass(draw_state);
+  u8g2_draw_compass(angle);
 }
 
 void setup() {
@@ -144,12 +144,7 @@ void loop() {
         mpu.dmpGetQuaternion(&q, FIFOBuffer);
         mpu.dmpGetGravity(&gravity, &q);
         mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
-        Serial1.print("ypr\t");
-        Serial1.print(ypr[0] * 180/M_PI);
-        Serial1.print("\t");
-        Serial1.print(ypr[1] * 180/M_PI);
-        Serial1.print("\t");
-        Serial1.println(ypr[2] * 180/M_PI);
+        angle = (ypr[0] * 180/M_PI);
     }
     MPUInterrupt = false;
   }
