@@ -40,6 +40,8 @@ void DMPDataReady() {
 }
 
 float angle = 0.0;
+int lineht = 0;
+int pos = 0;
 
 void u8g2_prepare(void) {
   u8g2.setFont(u8g2_font_6x10_tf);
@@ -47,6 +49,8 @@ void u8g2_prepare(void) {
   u8g2.setDrawColor(1);
   u8g2.setFontPosTop();
   u8g2.setFontDirection(0);
+  lineht = u8g2.getMaxCharHeight();
+  Serial1.println(lineht);
 }
 
 void u8g2_draw_compass(float a) {
@@ -86,20 +90,33 @@ void setup() {
   Wire1.begin();
   
   u8g2.begin();
+  u8g2_prepare();
+  u8g2.clearBuffer();					// clear the internal memory
+
 
    /*Initialize device*/
   Serial1.println(F("Initializing I2C devices..."));
+  u8g2.print("Init I2C...");
+  u8g2.sendBuffer();					// transfer internal memory to the display
   mpu.initialize();
+  u8g2.print("OK\n");
+  u8g2.setCursor(0,u8g2.getCursorY() + lineht);
+  u8g2.sendBuffer();					// transfer internal memory to the display
   pinMode(INTERRUPT_PIN, INPUT);
 
   /*Verify connection*/
   Serial1.println(F("Testing MPU6050 connection..."));
+  u8g2.print("Init MPU...");
+    u8g2.sendBuffer();					// transfer internal memory to the display
   if(mpu.testConnection() == false){
     Serial1.println("MPU6050 connection failed");
     while(true);
   }
   else {
     Serial1.println("MPU6050 connection successful");
+    u8g2.print("OK\n");
+    u8g2.setCursor(0,u8g2.getCursorY() + lineht);
+    u8g2.sendBuffer();					// transfer internal memory to the display
   }
 
   /* Initializate and configure the DMP*/
@@ -143,6 +160,8 @@ void setup() {
     // 1 = initial memory load failed
     // 2 = DMP configuration updates failed
   }
+  u8g2.println("All OK.");
+  u8g2.sendBuffer();
 }
 
 void loop() {
@@ -160,9 +179,6 @@ void loop() {
     MPUInterrupt = false;
   }
 
-  // picture loop  
-  u8g2.firstPage();  
-  do {
-    draw();
-  } while( u8g2.nextPage() );
+
+  draw();
 }
