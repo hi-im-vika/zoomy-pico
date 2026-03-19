@@ -154,10 +154,4 @@ void loop() {
   do {
     draw();
   } while( u8g2.nextPage() );
-  
-  if(draw_state >= 359) {
-    draw_state = 0;
-  } else{
-    draw_state++;
-  }
 }
