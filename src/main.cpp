@@ -4,6 +4,7 @@
 #include <U8g2lib.h>
 #include <Wire.h>
 #include <Servo.h>
+#include <Console.hpp>
 
 #define UART0_BAUD  115200
 #define UART0_TX    0
@@ -18,6 +19,7 @@
 
 U8G2_SSD1306_128X64_NONAME_F_2ND_HW_I2C u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE);
 MPU6050 mpu;
+Console console;
 Servo myservo;
 int const INTERRUPT_PIN = IMU_INT;  // Define the interruption #0 pin
 
@@ -57,7 +59,7 @@ void u8g2_prepare(void) {
 
 void u8g2_draw_compass(float a) {
   // if(!a) Serial1.printf("Compass demo\n");
-  Serial1.printf("%.2f\n", a);
+  // Serial1.printf("%.2f\n", a);
   float a_rot = a + 90.0;
   int line_x2 = OLED_W/2 + (30 * cos(a_rot * M_PI/180.0));
   int line_y2 = OLED_H/2 + (30 * -sin(a_rot * M_PI/180.0));
@@ -72,9 +74,11 @@ void u8g2_draw_angle(float a) {
 }
 
 void draw(void) {
-  u8g2_prepare();
+  // u8g2_prepare();
+  u8g2.clearBuffer();					// clear the internal memory
   u8g2_draw_angle(angle);
   u8g2_draw_compass(angle);
+  u8g2.sendBuffer();					// transfer internal memory to the display
 }
 
 void setup() {
@@ -95,6 +99,18 @@ void setup() {
   u8g2_prepare();
   u8g2.clearBuffer();					// clear the internal memory
 
+  console.init(&u8g2);
+
+  int cnt = 0;
+
+  while(true) {
+    char buf[20];
+    sprintf(buf, "count %d", cnt);
+    console.add(buf);
+    console.display();
+    cnt++;
+    delay(1000);
+  }
 
    /*Initialize device*/
   Serial1.println(F("Initializing I2C devices..."));
