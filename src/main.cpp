@@ -101,19 +101,19 @@ void setup() {
 
   console.init(&u8g2);
 
-  int cnt = 0;
+  // int cnt = 0;
 
-  while(true) {
-    char buf[20];
-    sprintf(buf, "count %d...", cnt);
-    console.add(buf);
-    console.display();
-    delay(500);
-    console.append("OK");
-    console.display();
-    delay(500);
-    cnt++;
-  }
+  // while(true) {
+  //   char buf[20];
+  //   sprintf(buf, "count %d...", cnt);
+  //   console.add(buf);
+  //   console.display();
+  //   delay(500);
+  //   console.append("OK");
+  //   console.display();
+  //   delay(500);
+  //   cnt++;
+  // }
 
    /*Initialize device*/
   Serial1.println(F("Initializing I2C devices..."));
