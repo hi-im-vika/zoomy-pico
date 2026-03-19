@@ -117,33 +117,39 @@ void setup() {
 
    /*Initialize device*/
   Serial1.println(F("Initializing I2C devices..."));
-  u8g2.print("Init I2C...");
-  u8g2.sendBuffer();					// transfer internal memory to the display
+  console.add("Init I2C...");
+  console.display();
   mpu.initialize();
-  u8g2.print("OK\n");
-  u8g2.setCursor(0,u8g2.getCursorY() + lineht);
-  u8g2.sendBuffer();					// transfer internal memory to the display
+  console.append("OK");
+  console.display();
   pinMode(INTERRUPT_PIN, INPUT);
 
   /*Verify connection*/
   Serial1.println(F("Testing MPU6050 connection..."));
-  u8g2.print("Init MPU...");
-    u8g2.sendBuffer();					// transfer internal memory to the display
+  console.add("Init MPU...");
+  console.display();
   if(mpu.testConnection() == false){
     Serial1.println("MPU6050 connection failed");
+    console.add("MPU init fail");
+    console.display();
     while(true);
   }
   else {
     Serial1.println("MPU6050 connection successful");
-    u8g2.print("OK\n");
+    console.append("OK");
+    console.display();
     u8g2.setCursor(0,u8g2.getCursorY() + lineht);
     u8g2.sendBuffer();					// transfer internal memory to the display
   }
 
   /* Initializate and configure the DMP*/
   Serial1.println(F("Initializing DMP..."));
+  console.add("Init DMP...");
+  console.display();
   devStatus = mpu.dmpInitialize();
   Serial1.println(F("DMP init done"));
+  console.append("OK");
+  console.display();
 
   /* Supply your gyro offsets here, scaled for min sensitivity */
   mpu.setXGyroOffset(0);
@@ -155,8 +161,18 @@ void setup() {
 
   /* Making sure it worked (returns 0 if so) */ 
   if (devStatus == 0) {
+    console.add("Calib accel...");
+    console.display();
     mpu.CalibrateAccel(100);  // Calibration Time: generate offsets and calibrate our MPU6050
+    console.append("OK");
+    console.display();
+
+    console.add("Calib gyro...");
+    console.display();
     mpu.CalibrateGyro(100);
+    console.append("OK");
+    console.display();
+
     Serial1.println("These are the Active offsets: ");
     mpu.PrintActiveOffsets();
     Serial1.println(F("Enabling DMP..."));   //Turning ON DMP
@@ -178,11 +194,13 @@ void setup() {
     Serial1.print(F("DMP Initialization failed (code ")); //Print the error code
     Serial1.print(devStatus);
     Serial1.println(F(")"));
+    console.add("DMP init fail");
+    console.display();
     // 1 = initial memory load failed
     // 2 = DMP configuration updates failed
   }
-  u8g2.println("All OK.");
-  u8g2.sendBuffer();
+  console.add("All OK!");
+  console.display();
   delay(1000);
   u8g2.clear();
   myservo.attach(16, 500, 2500);
