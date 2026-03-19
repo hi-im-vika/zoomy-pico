@@ -10,10 +10,10 @@ void Console::init(U8G2 *u) {
     _width_line = u->getDisplayWidth() / u->getMaxCharWidth();
     _height_line = u->getMaxCharHeight();
 
-
     _lines = (char**) malloc(_num_lines * sizeof(char*));
     for (int i = 0; i < _num_lines; i++) {
         *(_lines + i) = (char*) malloc(_width_line * sizeof(char));
+        memset(*(_lines + i), 0, _width_line * sizeof(char));
     }
 }
 
