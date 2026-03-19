@@ -105,11 +105,14 @@ void setup() {
 
   while(true) {
     char buf[20];
-    sprintf(buf, "count %d", cnt);
+    sprintf(buf, "count %d...", cnt);
     console.add(buf);
     console.display();
+    delay(500);
+    console.append("OK");
+    console.display();
+    delay(500);
     cnt++;
-    delay(1000);
   }
 
    /*Initialize device*/
