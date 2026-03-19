@@ -59,10 +59,15 @@ void u8g2_draw_compass(float a) {
   u8g2.drawLine(OLED_W/2,OLED_H/2,line_x2, line_y2);
 }
 
-float angle = 0;
+void u8g2_draw_angle(float a) {
+  char buf[10];
+  sprintf(buf, "Y: %.2f", a);
+  u8g2.drawUTF8(0,0,buf);
+}
 
 void draw(void) {
   u8g2_prepare();
+  u8g2_draw_angle(angle);
   u8g2_draw_compass(angle);
 }
 
