@@ -3,6 +3,7 @@
 #include "MPU6050_6Axis_MotionApps20.h"
 #include <U8g2lib.h>
 #include <Wire.h>
+#include <Servo.h>
 
 #define UART0_BAUD  115200
 #define UART0_TX    0
@@ -17,6 +18,7 @@
 
 U8G2_SSD1306_128X64_NONAME_F_2ND_HW_I2C u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE);
 MPU6050 mpu;
+Servo myservo;
 int const INTERRUPT_PIN = IMU_INT;  // Define the interruption #0 pin
 
 /*---MPU6050 Control/Status Variables---*/
@@ -162,7 +164,13 @@ void setup() {
   }
   u8g2.println("All OK.");
   u8g2.sendBuffer();
+  delay(1000);
+  u8g2.clear();
+  myservo.attach(16, 500, 2500);
 }
+
+int now = 0;
+bool other_side = false;
 
 void loop() {
   if (!DMPReady) return; // Stop the program if DMP programming fails.
@@ -179,6 +187,11 @@ void loop() {
     MPUInterrupt = false;
   }
 
+  if (millis() - now > 15) {
+    int val = map(angle, -90, 90, 500, 2500);
+    myservo.write(int(val));
+    now = millis();
+  } 
 
   draw();
 }
