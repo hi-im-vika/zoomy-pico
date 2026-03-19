@@ -6,6 +6,7 @@ class Console {
     ~Console();
     void init(U8G2 *u);
     void add(char *str);
+    void append(char *str);
     void display();
 
     private:

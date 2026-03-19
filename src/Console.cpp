@@ -24,6 +24,11 @@ void Console::add(char *str) {
     strcpy(_lines[0], str);
 }
 
+void Console::append(char *str) {
+    uint8_t left = _width_line - strlen(_lines[0]);
+    strncat(_lines[0], str, left);
+}
+
 void Console::display() {
     _u8g2->clearBuffer();
 
