@@ -54,6 +54,11 @@ float angle = 0.0;
 int lineht = 0;
 int pos = 0;
 
+RF24 radio(RF24_CE, SPI0_CSN);
+uint8_t address[][6] = { "1Node", "2Node" };
+bool radioNumber = 1;  // 0 uses address[0] to transmit, 1 uses address[1] to transmit
+float payload = 0.0;
+
 void u8g2_prepare(void) {
   u8g2.setFont(u8g2_font_6x10_tf);
   u8g2.setFontRefHeightExtendedText();
@@ -93,6 +98,11 @@ void setup() {
   Serial1.setRX(UART0_RX);
   Serial1.begin(UART0_BAUD);
 
+  SPI.setMISO(SPI0_MISO);
+  SPI.setCS(SPI0_CSN);
+  SPI.setSCK(SPI0_SCK);
+  SPI.setMOSI(SPI0_MOSI);
+
   Wire.setSDA(I2C0_SDA);
   Wire.setSCL(I2C0_SCL);
   Wire.begin();
@@ -121,6 +131,22 @@ void setup() {
   //   delay(500);
   //   cnt++;
   // }
+
+    // initialize the transceiver on the SPI bus
+  if (!radio.begin()) {
+    Serial1.println(F("radio hardware is not responding!!"));
+    while (1) {}  // hold in infinite loop
+  }
+
+  radioNumber = 1;
+  Serial1.print(F("radioNumber = "));
+  Serial1.println((int)radioNumber);
+  radio.setPALevel(RF24_PA_LOW);  // RF24_PA_MAX is default.
+
+  radio.setPayloadSize(sizeof(payload));  // float datatype occupies 4 bytes
+  radio.stopListening(address[radioNumber]);  // put radio in TX mode
+  radio.openReadingPipe(1, address[!radioNumber]);  // using pipe 1
+  radio.startListening();
 
    /*Initialize device*/
   Serial1.println(F("Initializing I2C devices..."));
@@ -217,6 +243,19 @@ int now = 0;
 bool other_side = false;
 
 void loop() {
+
+  uint8_t pipe;
+  if (radio.available(&pipe)) {              // is there a payload? get the pipe number that received it
+    uint8_t bytes = radio.getPayloadSize();  // get the size of the payload
+    radio.read(&payload, bytes);             // fetch payload from FIFO
+    Serial1.print(F("Received "));
+    Serial1.print(bytes);  // print the size of the payload
+    Serial1.print(F(" bytes on pipe "));
+    Serial1.print(pipe);  // print the pipe number
+    Serial1.print(F(": "));
+    Serial1.println(payload);  // print the payload's value
+  }
+  
   if (!DMPReady) return; // Stop the program if DMP programming fails.
     
   if (MPUInterrupt) {
