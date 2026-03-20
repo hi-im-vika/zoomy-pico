@@ -155,7 +155,7 @@ void setup() {
   radioNumber = 1;
   Serial1.print(F("radioNumber = "));
   Serial1.println((int)radioNumber);
-  radio.setPALevel(RF24_PA_LOW);  // RF24_PA_MAX is default.
+  // radio.setPALevel(RF24_PA_LOW);  // RF24_PA_MAX is default.
 
   radio.setPayloadSize(sizeof(payload));  // float datatype occupies 4 bytes
   radio.stopListening(address[radioNumber]);  // put radio in TX mode
