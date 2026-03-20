@@ -23,7 +23,7 @@
 #define OLED_W      128
 #define OLED_H      64
 #define IMU_INT   22
-#define SERVO_PIN   15
+#define SERVO_PIN   4
 
 U8G2_SSD1306_128X64_NONAME_F_2ND_HW_I2C u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE);
 MPU6050 mpu;
