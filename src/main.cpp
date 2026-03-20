@@ -86,10 +86,17 @@ void u8g2_draw_angle(float a) {
   u8g2.drawUTF8(0,0,buf);
 }
 
+void u8g2_draw_rx(float a) {
+  char buf[10];
+  sprintf(buf, "RX: %.2f", a);
+  u8g2.drawUTF8(0,10,buf);
+}
+
 void draw(void) {
   // u8g2_prepare();
   u8g2.clearBuffer();					// clear the internal memory
   u8g2_draw_angle(angle);
+  u8g2_draw_rx(payload);
   u8g2_draw_compass(angle);
   u8g2.sendBuffer();					// transfer internal memory to the display
 }
