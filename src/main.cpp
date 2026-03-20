@@ -23,6 +23,7 @@
 #define OLED_W      128
 #define OLED_H      64
 #define IMU_INT   22
+#define SERVO_PIN   15
 
 U8G2_SSD1306_128X64_NONAME_F_2ND_HW_I2C u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE);
 MPU6050 mpu;
@@ -236,7 +237,7 @@ void setup() {
   console.display();
   delay(1000);
   u8g2.clear();
-  myservo.attach(16, 500, 2500);
+  myservo.attach(SERVO_PIN, 500, 2500);
 }
 
 int now = 0;
