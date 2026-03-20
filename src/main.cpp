@@ -14,6 +14,12 @@
 #define I2C0_SDA  20
 #define I2C1_SDA    2
 #define I2C1_SCL    3
+#define SPI0_CSN    17
+#define SPI0_MOSI   19
+#define SPI0_MISO   16
+#define SPI0_SCK    18
+#define RF24_CE     27
+#define RF24_INT    26
 #define OLED_W      128
 #define OLED_H      64
 #define IMU_INT   22
