@@ -133,11 +133,17 @@ void setup() {
   //   cnt++;
   // }
 
-    // initialize the transceiver on the SPI bus
+  // initialize the transceiver on the SPI bus
+  console.add("Init RF24...");
+  console.display();
   if (!radio.begin()) {
     Serial1.println(F("radio hardware is not responding!!"));
+    console.add("RF24 init failed");
+    console.display();
     while (1) {}  // hold in infinite loop
   }
+  console.append("OK");
+  console.display();
 
   radioNumber = 1;
   Serial1.print(F("radioNumber = "));
