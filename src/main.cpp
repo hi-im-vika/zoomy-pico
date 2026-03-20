@@ -255,12 +255,6 @@ void loop() {
   if (radio.available(&pipe)) {              // is there a payload? get the pipe number that received it
     uint8_t bytes = radio.getPayloadSize();  // get the size of the payload
     radio.read(&payload, bytes);             // fetch payload from FIFO
-    Serial1.print(F("Received "));
-    Serial1.print(bytes);  // print the size of the payload
-    Serial1.print(F(" bytes on pipe "));
-    Serial1.print(pipe);  // print the pipe number
-    Serial1.print(F(": "));
-    Serial1.println(payload);  // print the payload's value
   }
   
   if (!DMPReady) return; // Stop the program if DMP programming fails.
