@@ -82,7 +82,7 @@ void setup() {
   // initialize the transceiver on the SPI bus
   Display::log_add("Init RF24...");
   if (!radio.begin()) {
-    Serial1.println(F("radio hardware is not responding!!"));
+    Serial1.println("radio hardware is not responding!!");
     Display::log_add("RF24 init failed");
     while (1) {}  // hold in infinite loop
   }
@@ -97,14 +97,14 @@ void setup() {
   radio.startListening();
 
    /*Initialize device*/
-  Serial1.println(F("Initializing I2C devices..."));
+  Serial1.println("Initializing I2C devices...");
   Display::log_add("Init I2C...");
   mpu.initialize();
   Display::log_append("OK");
   pinMode(INTERRUPT_PIN, INPUT);
 
   /*Verify connection*/
-  Serial1.println(F("Testing MPU6050 connection..."));
+  Serial1.println("Testing MPU6050 connection...");
   Display::log_add("Init MPU...");
   if(mpu.testConnection() == false){
     Serial1.println("MPU6050 connection failed");
@@ -117,10 +117,10 @@ void setup() {
   }
 
   /* Initializate and configure the DMP*/
-  Serial1.println(F("Initializing DMP..."));
+  Serial1.println("Initializing DMP...");
   Display::log_add("Init DMP...");
   devStatus = mpu.dmpInitialize();
-  Serial1.println(F("DMP init done"));
+  Serial1.println("DMP init done");
   Display::log_append("OK");
 
   /* Supply your gyro offsets here, scaled for min sensitivity */
@@ -143,25 +143,25 @@ void setup() {
 
     Serial1.println("These are the Active offsets: ");
     mpu.PrintActiveOffsets();
-    Serial1.println(F("Enabling DMP..."));   //Turning ON DMP
+    Serial1.println("Enabling DMP...");   //Turning ON DMP
     mpu.setDMPEnabled(true);
 
     /*Enable Arduino interrupt detection*/
-    Serial1.print(F("Enabling interrupt detection (Arduino external interrupt "));
+    Serial1.print("Enabling interrupt detection (Arduino external interrupt ");
     Serial1.print(digitalPinToInterrupt(INTERRUPT_PIN));
-    Serial1.println(F(")..."));
+    Serial1.println(")...");
     attachInterrupt(digitalPinToInterrupt(INTERRUPT_PIN), DMPDataReady, RISING);
     MPUIntStatus = mpu.getIntStatus();
 
     /* Set the DMP Ready flag so the main loop() function knows it is okay to use it */
-    Serial1.println(F("DMP ready! Waiting for first interrupt..."));
+    Serial1.println("DMP ready! Waiting for first interrupt...");
     DMPReady = true;
     packetSize = mpu.dmpGetFIFOPacketSize(); //Get expected DMP packet size for later comparison
   } 
   else {
-    Serial1.print(F("DMP Initialization failed (code ")); //Print the error code
+    Serial1.print("DMP Initialization failed (code "); //Print the error code
     Serial1.print(devStatus);
-    Serial1.println(F(")"));
+    Serial1.println")");
     Display::log_add("DMP init fail");
     // 1 = initial memory load failed
     // 2 = DMP configuration updates failed
