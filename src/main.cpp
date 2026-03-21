@@ -138,6 +138,8 @@ void setup() {
   console.display();
 
   radio.setPALevel(RF24_PA_LOW);  // RF24_PA_MAX is default.
+  radio.setAutoAck(false);
+  radio.setRetries(0,0);
   radio.setPayloadSize(sizeof(payload));  // float datatype occupies 4 bytes
   radio.openReadingPipe(1, address);  // using pipe 1
   radio.startListening();
