@@ -5,6 +5,7 @@
 #include <Wire.h>
 #include <Servo.h>
 #include <Console.hpp>
+#include <Display.hpp>
 #include <RF24.h>
 
 #define UART0_BAUD  115200
