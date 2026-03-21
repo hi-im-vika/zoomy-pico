@@ -56,6 +56,10 @@ VectorFloat gravity;    // [x, y, z]            Gravity vector
 float euler[3];         // [psi, theta, phi]    Euler angle container
 float ypr[3];           // [yaw, pitch, roll]   Yaw/Pitch/Roll container and gravity vector
 
+/*---Profiling Variables---*/ 
+unsigned long t_radio = 0;
+unsigned long t_dmp =   0;
+
 /*------Interrupt detection routine------*/
 volatile bool MPUInterrupt = false;     // Indicates whether MPU6050 interrupt pin has gone high
 
@@ -251,13 +255,20 @@ void setup() {
 
 int now = 0;
 bool other_side = false;
+unsigned long last_rx = micros();
 
 void loop() {
 
   uint8_t pipe;
+  unsigned long t0 = micros();
   if (radio.available(&pipe)) {              // is there a payload? get the pipe number that received it
     uint8_t bytes = radio.getPayloadSize();  // get the size of the payload
-    radio.read(&payload, bytes);             // fetch payload from FIFO
+    radio.read(&input, bytes);             // fetch payload from FIFO
+    unsigned long t1 = micros();
+    unsigned long d_rx = micros() - last_rx;
+    last_rx = micros();
+    t_radio = t1 - t0;
+    Serial1.printf("[%lu] [d%luus] RX OK\r\n", millis(), d_rx);
   }
   
   if (!DMPReady) return; // Stop the program if DMP programming fails.
@@ -278,7 +289,8 @@ void loop() {
     int val = map(angle, -90, 90, 500, 2500);
     myservo.write(int(val));
     now = millis();
-  } 
+  }
+}
 
 void loop1() {
     if (draw_ready) draw();
