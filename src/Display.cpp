@@ -40,6 +40,18 @@ namespace Display {
         _u8g2.drawLine(OLED_CX,OLED_CY/2,line_x2, line_y2);
     }
 
+    void draw_bars(InputFrame input) {
+        uint8_t max_height = OLED_CX;
+        uint8_t bar_width = 4;
+
+        uint8_t vlen1 = map(input.lx, -32767, 32767, 0, max_height);
+        uint8_t box1[] = { 0, OLED_H - vlen1, bar_width, vlen1};
+
+        uint8_t vlen2 = map(input.ry, -32767, 32767, 0, max_height);
+        uint8_t box2[] = { bar_width + 1 , OLED_H - vlen2, bar_width, vlen2};
+
+        _u8g2.drawBox(box1[0], box1[1], box1[2], box1[3]);
+        _u8g2.drawBox(box2[0], box2[1], box2[2], box2[3]);
     }
 
     void draw_angle(float a) {
@@ -59,6 +71,7 @@ namespace Display {
         _u8g2.clearBuffer();					// clear the internal memory
         draw_angle(angle);
         draw_rx(input.lx);
+        draw_bars(input);
         draw_compass(angle);
         _u8g2.sendBuffer();					// transfer internal memory to the display
     }
