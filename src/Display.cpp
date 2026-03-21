@@ -44,10 +44,10 @@ namespace Display {
         uint8_t max_height = OLED_CX;
         uint8_t bar_width = 4;
 
-        uint8_t vlen1 = map(input.lx, -32767, 32767, 0, max_height);
+        uint8_t vlen1 = map(input.ly, -32767, 32767, 0, max_height);
         uint8_t box1[] = { 0, OLED_H - vlen1, bar_width, vlen1};
 
-        uint8_t vlen2 = map(input.ry, -32767, 32767, 0, max_height);
+        uint8_t vlen2 = map(input.rx, -32767, 32767, 0, max_height);
         uint8_t box2[] = { bar_width + 1 , OLED_H - vlen2, bar_width, vlen2};
 
         _u8g2.drawBox(box1[0], box1[1], box1[2], box1[3]);
