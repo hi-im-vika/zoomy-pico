@@ -147,9 +147,8 @@ void setup() {
     mpu.setDMPEnabled(true);
 
     /*Enable Arduino interrupt detection*/
-    Serial1.print("Enabling interrupt detection (Arduino external interrupt ");
-    Serial1.print(digitalPinToInterrupt(INTERRUPT_PIN));
-    Serial1.println(")...");
+    Serial1.printf("Enabling interrupt detection (Arduino external interrupt %d)...\r\n",
+      digitalPinToInterrupt(INTERRUPT_PIN));
     attachInterrupt(digitalPinToInterrupt(INTERRUPT_PIN), DMPDataReady, RISING);
     MPUIntStatus = mpu.getIntStatus();
 
@@ -159,9 +158,7 @@ void setup() {
     packetSize = mpu.dmpGetFIFOPacketSize(); //Get expected DMP packet size for later comparison
   } 
   else {
-    Serial1.print("DMP Initialization failed (code "); //Print the error code
-    Serial1.print(devStatus);
-    Serial1.println")");
+    Serial1.printf("DMP Initialization failed (code %d)", devStatus); //Print the error code
     Display::log_add("DMP init fail");
     // 1 = initial memory load failed
     // 2 = DMP configuration updates failed
