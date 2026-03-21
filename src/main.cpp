@@ -84,7 +84,7 @@ void setup() {
   if (!radio.begin()) {
     Serial1.println("radio hardware is not responding!!");
     Display::log_add("RF24 init failed");
-    while (1) {}  // hold in infinite loop
+    while(true);
   }
   Display::log_append("OK");
 
