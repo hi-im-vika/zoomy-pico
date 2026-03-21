@@ -153,7 +153,7 @@ void setup() {
   radio.setAutoAck(false);
   radio.setRetries(0,0);
   radio.setDataRate(RF24_2MBPS);
-  radio.setPayloadSize(sizeof(payload));  // float datatype occupies 4 bytes
+  radio.setPayloadSize(FRAME_SIZE);  // float datatype occupies 4 bytes
   radio.openReadingPipe(1, address);  // using pipe 1
   radio.startListening();
 
