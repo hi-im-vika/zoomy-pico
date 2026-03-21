@@ -3,6 +3,13 @@
 namespace {
     U8G2_SSD1306_128X64_NONAME_F_2ND_HW_I2C _u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE);
     Console _console;
+
+    constexpr uint8_t I2C1_SDA  = 2;
+    constexpr uint8_t I2C1_SCL  = 3;
+    constexpr uint8_t OLED_W    = 128;
+    constexpr uint8_t OLED_H    = 64;
+    constexpr uint8_t OLED_CX   = OLED_W / 2;
+    constexpr uint8_t OLED_CY   = OLED_H / 2;
 }
 
 namespace Display {

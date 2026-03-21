@@ -6,11 +6,6 @@
 #include "Console.hpp"
 #include "types.hpp"
 
-#define I2C1_SDA    2
-#define I2C1_SCL    3
-#define OLED_W      128
-#define OLED_H      64
-
 namespace Display {
     
     void init();
