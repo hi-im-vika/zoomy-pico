@@ -60,20 +60,11 @@ namespace Display {
         _u8g2.drawUTF8(0,0,buf);
     }
 
-    void draw_rx(int16_t a) {
-        char buf[10];
-        sprintf(buf, "RX: %d", a);
-        _u8g2.drawUTF8(0,10,buf);
-    }
-
     void draw(InputFrame input, float angle) {
-        // Display::prepare();
-        _u8g2.clearBuffer();					// clear the internal memory
-        draw_angle(angle);
-        draw_rx(input.lx);
+        _u8g2.clearBuffer();
         draw_bars(input);
         draw_compass(angle);
-        _u8g2.sendBuffer();					// transfer internal memory to the display
+        _u8g2.sendBuffer();
     }
 
     void clear() {

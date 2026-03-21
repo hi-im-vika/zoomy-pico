@@ -12,7 +12,6 @@ namespace Display {
     void prepare();
     void draw_compass(float a);
     void draw_angle(float a);
-    void draw_rx(int16_t a);
     void draw(InputFrame input, float angle);
     void clear();
 
