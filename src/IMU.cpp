@@ -7,8 +7,6 @@ namespace {
     constexpr uint8_t I2C0_SCL  = 21;
     constexpr uint8_t IMU_INT   = 22;
 
-    DisplayHelper _dh;
-
     /*---MPU6050 Control/Status Variables---*/
     bool DMPReady = false;  // Set true if DMP init was successful
     uint8_t devStatus;      // Return status after each device operation (0 = success, !0 = error)
@@ -32,8 +30,6 @@ namespace {
 
 namespace IMU {
     void init(DisplayHelper dh) {
-
-        _dh = dh;
 
         Wire.setSDA(I2C0_SDA);
         Wire.setSCL(I2C0_SCL);

@@ -66,7 +66,10 @@ void setup() {
   radio.openReadingPipe(1, address);  // using pipe 1
   radio.startListening();
 
-  IMU::init(dh);
+  IMU::init(DisplayHelper{
+    Display::log_add,
+    Display::log_append
+  });
 
   Display::log_add("All OK!");
   delay(1000);
