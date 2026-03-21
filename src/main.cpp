@@ -18,7 +18,7 @@
 #define THROTTLE_PIN 6
 
 InputFrame input = {};
-Servo myservo;
+Servo steering, throttle;
 volatile bool draw_ready = false;
 
 /*---Profiling Variables---*/ 
