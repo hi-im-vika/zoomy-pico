@@ -25,6 +25,17 @@
 #define IMU_INT   22
 #define SERVO_PIN   4
 
+#define FRAME_SIZE 10
+
+#pragma pack(push, 1)
+struct InputFrame {
+  int16_t  lx, ly, rx, ry;
+  uint16_t buttons;
+};
+#pragma pack(pop)
+static_assert(sizeof(InputFrame) == FRAME_SIZE, "frame size mismatch");
+InputFrame input = {};
+
 U8G2_SSD1306_128X64_NONAME_F_2ND_HW_I2C u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE);
 MPU6050 mpu;
 Console console;
