@@ -9,13 +9,6 @@
 namespace IMU {
     
     void init(DisplayHelper dh);
-    bool testConnection();
-    uint8_t dmpInitialize();
-    void calibAccel();
-    void calibGyro();
-    void enableDMP();
-    void enableDMPInterrupt();
-    float getAngle();
-
     void update();
+    float getAngle();
 }
