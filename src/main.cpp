@@ -61,6 +61,11 @@ RF24 radio(RF24_CE, SPI0_CSN);
 uint8_t address[5] = { 0xCE, 0x15, 0x10, 0x55, 0xBB };
 float payload = 0.0;
 
+DisplayHelper dh = {
+  Display::log_add,
+  Display::log_append
+};
+
 void setup() {
   Serial1.setTX(UART0_TX);
   Serial1.setRX(UART0_RX);
