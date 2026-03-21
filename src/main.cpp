@@ -56,8 +56,7 @@ int lineht = 0;
 int pos = 0;
 
 RF24 radio(RF24_CE, SPI0_CSN);
-uint8_t address[][6] = { "1Node", "2Node" };
-bool radioNumber = 1;  // 0 uses address[0] to transmit, 1 uses address[1] to transmit
+uint8_t address[5] = { 0xCE, 0x15, 0x10, 0x55, 0xBB };
 float payload = 0.0;
 
 void u8g2_prepare(void) {
@@ -152,14 +151,9 @@ void setup() {
   console.append("OK");
   console.display();
 
-  radioNumber = 1;
-  Serial1.print(F("radioNumber = "));
-  Serial1.println((int)radioNumber);
   // radio.setPALevel(RF24_PA_LOW);  // RF24_PA_MAX is default.
-
   radio.setPayloadSize(sizeof(payload));  // float datatype occupies 4 bytes
-  radio.stopListening(address[radioNumber]);  // put radio in TX mode
-  radio.openReadingPipe(1, address[!radioNumber]);  // using pipe 1
+  radio.openReadingPipe(1, address);  // using pipe 1
   radio.startListening();
 
    /*Initialize device*/
