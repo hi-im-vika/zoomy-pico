@@ -14,7 +14,8 @@
 #define SPI0_SCK    18
 #define RF24_CE     27
 #define RF24_INT    26
-#define SERVO_PIN   4
+#define STEERING_PIN 4
+#define THROTTLE_PIN 6
 
 InputFrame input = {};
 Servo myservo;
