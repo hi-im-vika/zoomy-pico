@@ -23,6 +23,8 @@ volatile bool draw_ready = false;
 /*---Profiling Variables---*/ 
 unsigned long t_radio = 0;
 unsigned long t_dmp =   0;
+unsigned long l_servo = millis();
+unsigned long l_rx = micros();
 
 int lineht = 0;
 int pos = 0;
@@ -78,10 +80,6 @@ void setup() {
   draw_ready = true;
 }
 
-int now = 0;
-bool other_side = false;
-unsigned long last_rx = micros();
-
 void loop() {
 
   uint8_t pipe;
@@ -90,8 +88,8 @@ void loop() {
     uint8_t bytes = radio.getPayloadSize();  // get the size of the payload
     radio.read(&input, bytes);             // fetch payload from FIFO
     unsigned long t1 = micros();
-    unsigned long d_rx = micros() - last_rx;
-    last_rx = micros();
+    unsigned long d_rx = micros() - l_rx;
+    l_rx = micros();
     t_radio = t1 - t0;
     Serial1.printf("[%lu] [d%luus] RX OK\r\n", millis(), d_rx);
   }
@@ -101,7 +99,7 @@ void loop() {
   if (millis() - l_servo > 15) {
     int val = map(IMU::getAngle(), -90, 90, 500, 2500);
     myservo.write(int(val));
-    now = millis();
+    l_servo = millis();
   }
 }
 
