@@ -10,3 +10,8 @@ struct InputFrame {
 };
 #pragma pack(pop)
 static_assert(sizeof(InputFrame) == FRAME_SIZE, "frame size mismatch");
+
+struct DisplayHelper {
+  void (*dispAdd)(char *str);
+  void (*dispAppend)(char *str);
+};
