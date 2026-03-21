@@ -15,7 +15,7 @@
 #define RF24_CE     27
 #define RF24_INT    26
 #define STEERING_PIN 4
-#define THROTTLE_PIN 6
+#define THROTTLE_PIN 5
 
 InputFrame input = {};
 Servo steering, throttle;
@@ -77,7 +77,8 @@ void setup() {
   Display::log_add("All OK!");
   delay(1000);
   Display::clear();
-  myservo.attach(SERVO_PIN, 500, 2500);
+  steering.attach(STEERING_PIN, 500, 2500);
+  throttle.attach(THROTTLE_PIN, 500, 2500);
   draw_ready = true;
 }
 
@@ -92,14 +93,17 @@ void loop() {
     unsigned long d_rx = micros() - l_rx;
     l_rx = micros();
     t_radio = t1 - t0;
-    Serial1.printf("[%lu] [d%luus] RX OK\r\n", millis(), d_rx);
+    // Serial1.printf("[%lu] [d%luus] RX OK\r\n", millis(), d_rx);
   }
   
   IMU::update();
 
   if (millis() - l_servo > 15) {
-    int val = map(IMU::getAngle(), -90, 90, 500, 2500);
-    myservo.write(int(val));
+    int steering_raw = map(input.ly, -32767, 32767, 500, 2500);
+    int throttle_raw = map(input.rx, -32767, 32767, 500, 2500);
+    steering.write(steering_raw);
+    throttle.write(throttle_raw);
+
     l_servo = millis();
   }
 }
