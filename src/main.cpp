@@ -30,6 +30,7 @@ MPU6050 mpu;
 Console console;
 Servo myservo;
 int const INTERRUPT_PIN = IMU_INT;  // Define the interruption #0 pin
+volatile bool draw_ready = false;
 
 /*---MPU6050 Control/Status Variables---*/
 bool DMPReady = false;  // Set true if DMP init was successful
@@ -233,6 +234,7 @@ void setup() {
   delay(1000);
   u8g2.clear();
   myservo.attach(SERVO_PIN, 500, 2500);
+  draw_ready = true;
 }
 
 int now = 0;
@@ -266,5 +268,7 @@ void loop() {
     now = millis();
   } 
 
-  draw();
+void loop1() {
+    if (draw_ready) draw();
+    yield();
 }
