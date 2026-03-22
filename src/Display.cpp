@@ -34,10 +34,14 @@ namespace Display {
     void draw_compass(float a) {
         uint8_t r = 20;
         float a_rot = a + 90.0;
-        int line_x2 = OLED_CX + (r * cos(a_rot * M_PI/180.0));
-        int line_y2 = OLED_CY + (r * -sin(a_rot * M_PI/180.0));
-        _u8g2.drawCircle(OLED_CX,OLED_CY,r);
-        _u8g2.drawLine(OLED_CX,OLED_CY,line_x2, line_y2);
+        uint8_t xpos = OLED_W - r - 2;
+        uint8_t ypos = OLED_CY;
+        int line_x2 = xpos + (r * cos(a_rot * M_PI/180.0));
+        int line_y2 = ypos + (r * -sin(a_rot * M_PI/180.0));
+        _u8g2.drawCircle(xpos,ypos,r);
+        _u8g2.drawLine(xpos,ypos,line_x2, line_y2);
+    }
+
     }
 
     void draw_bars(InputFrame input) {
