@@ -16,6 +16,10 @@
 #define RF24_INT    26
 #define STEERING_PIN 4
 #define THROTTLE_PIN 5
+#define STR_MAX     2000
+#define STR_MIN     1000
+#define THT_MAX     2500
+#define THT_MIN     500
 
 InputFrame input = {};
 Servo steering, throttle;
@@ -77,8 +81,8 @@ void setup() {
   Display::log_add("All OK!");
   delay(1000);
   Display::clear();
-  steering.attach(STEERING_PIN, 500, 2500);
-  throttle.attach(THROTTLE_PIN, 500, 2500);
+  steering.attach(STEERING_PIN, STR_MIN, STR_MAX);
+  throttle.attach(THROTTLE_PIN, THT_MIN, THT_MAX);
   draw_ready = true;
 }
 
