@@ -15,3 +15,8 @@ struct DisplayHelper {
   void (*dispAdd)(char *str);
   void (*dispAppend)(char *str);
 };
+
+struct Metrics {
+  unsigned long rx_count;
+  unsigned long d_radio;
+};
