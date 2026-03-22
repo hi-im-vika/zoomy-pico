@@ -98,9 +98,13 @@ void loop() {
     steering.write(steering_raw);
     l_servo = millis();
   }
+  draw_ready = true;
 }
 
 void loop1() {
-    if (draw_ready) Display::draw(input, IMU::getAngle());
+    if (draw_ready) {
+      draw_ready = false;
+      Display::draw(input, IMU::getAngle());
+    }
     yield();
 }
