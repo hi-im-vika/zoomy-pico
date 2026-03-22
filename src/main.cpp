@@ -27,12 +27,11 @@ volatile bool draw_ready = false;
 
 /*---Profiling Variables---*/ 
 unsigned long t_radio = 0;
-unsigned long t_dmp =   0;
-unsigned long l_servo = millis();
-unsigned long l_rx = micros();
 
-int lineht = 0;
-int pos = 0;
+unsigned long l_servo = millis();
+unsigned long l_radio = micros();
+
+unsigned long d_radio = 0;
 
 RF24 radio(RF24_CE, SPI0_CSN);
 uint8_t address[5] = { 0xCE, 0x15, 0x10, 0x55, 0xBB };
@@ -84,14 +83,9 @@ void setup() {
 void loop() {
 
   uint8_t pipe;
-  unsigned long t0 = micros();
   if (radio.available(&pipe)) {              // is there a payload? get the pipe number that received it
     uint8_t bytes = radio.getPayloadSize();  // get the size of the payload
     radio.read(&input, bytes);             // fetch payload from FIFO
-    unsigned long t1 = micros();
-    unsigned long d_rx = micros() - l_rx;
-    l_rx = micros();
-    t_radio = t1 - t0;
     // Serial1.printf("[%lu] [d%luus] RX OK\r\n", millis(), d_rx);
   }
   
