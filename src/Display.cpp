@@ -42,6 +42,16 @@ namespace Display {
         _u8g2.drawLine(xpos,ypos,line_x2, line_y2);
     }
 
+    void draw_metrics(Metrics m, InputFrame i) {
+        _u8g2.setFont(u8g2_font_04b_03_tr);
+        _u8g2.setCursor(0,0);
+        _u8g2.printf("RX total: %d", m.rx_count);
+        _u8g2.setCursor(0,_u8g2.getMaxCharHeight());
+        _u8g2.printf("Radio dt: %dus", m.d_radio);
+        _u8g2.setCursor(0,2 * _u8g2.getMaxCharHeight());
+        _u8g2.printf("Radio f: %6.0fhz", 1.0f / (m.d_radio / 1E6f));
+        _u8g2.setCursor(0,3 * _u8g2.getMaxCharHeight());
+        _u8g2.printf("ly/rx: %7d %7d", i.ly, i.rx);
     }
 
     void draw_bars(InputFrame input) {
