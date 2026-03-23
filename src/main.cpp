@@ -26,6 +26,7 @@ Metrics draw_metrics = {};
 State draw_state = {};
 Servo steering, throttle;
 volatile bool draw_ready = false;
+bool connected = false;
 
 /*---Profiling Variables---*/ 
 unsigned long t_radio = 0;
@@ -99,6 +100,12 @@ void loop() {
     throttle.write(throttle_raw);
     steering.write(steering_raw);
     l_servo = millis();
+  }
+
+  if (micros() - l_radio > 500000) {
+    // failsafe mode activated
+    rx_count = d_radio = 0;
+    input = {0,0,0,0,0};
   }
   draw_ready = true;
 }
