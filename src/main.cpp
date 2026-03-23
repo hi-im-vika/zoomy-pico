@@ -22,6 +22,8 @@
 #define THT_MIN     500
 
 InputFrame input = {};
+Metrics draw_metrics = {};
+State draw_state = {};
 Servo steering, throttle;
 volatile bool draw_ready = false;
 

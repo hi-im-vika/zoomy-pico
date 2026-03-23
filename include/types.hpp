@@ -20,3 +20,13 @@ struct Metrics {
   unsigned long rx_count;
   unsigned long d_radio;
 };
+
+struct State {
+  bool connected;
+  unsigned long l_radio;
+};
+
+struct Cursor {
+  uint8_t x;
+  uint8_t y;
+};
