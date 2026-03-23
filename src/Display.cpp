@@ -64,7 +64,24 @@ namespace Display {
         _u8g2.drawUTF8(0,0,buf);
     }
 
-    void draw(InputFrame input, float angle) {
+    void draw_state(State s) {
+        if (!s.connected) {
+            uint8_t pad = 8;
+            uint8_t boxw = OLED_W - (2 * pad);
+            uint8_t boxh = OLED_H - (2 * pad);
+            cursor = {pad, pad};
+            
+            _u8g2.setDrawColor(0);
+            _u8g2.drawBox(cursor.x, cursor.y, boxw, boxh);
+            _u8g2.setDrawColor(1);
+            _u8g2.drawFrame(cursor.x, cursor.y, boxw, boxh);
+            _u8g2.setFont(u8g2_font_iconquadpix_m_all);
+            cursor.x = (2 * pad) + (_u8g2.getMaxCharHeight() / 2);
+            cursor.y = pad + (boxh / 2) - (_u8g2.getMaxCharHeight() / 2);
+            _u8g2.drawGlyph(cursor.x, cursor.y, 33);
+        }
+    }
+
         _u8g2.clearBuffer();
         draw_bars(input);
         draw_compass(angle);
