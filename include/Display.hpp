@@ -12,7 +12,8 @@ namespace Display {
     void prepare();
     void draw_compass(float a);
     void draw_angle(float a);
-    void draw(InputFrame input, float angle);
+    void draw(InputFrame input, Metrics m, State s, float angle);
+    void draw_state(State s);
     void clear();
 
     void log_add(char *str);

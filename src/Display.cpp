@@ -92,9 +92,12 @@ namespace Display {
         }
     }
 
+    void draw(InputFrame input, Metrics m, State s, float angle) {
         _u8g2.clearBuffer();
         draw_bars(input);
+        draw_metrics(m,input);
         draw_compass(angle);
+        draw_state(s);
         _u8g2.sendBuffer();
     }
 
