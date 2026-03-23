@@ -10,6 +10,8 @@ namespace {
     constexpr uint8_t OLED_H    = 64;
     constexpr uint8_t OLED_CX   = OLED_W / 2;
     constexpr uint8_t OLED_CY   = OLED_H / 2;
+
+    Cursor cursor = {0, 0};
 }
 
 namespace Display {
