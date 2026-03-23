@@ -119,13 +119,20 @@ void loop() {
     rx_count = d_radio = 0;
     input = {0,0,0,0,0};
   }
+
+  Metrics m = {
+    rx_count, d_radio
+  };
+  draw_metrics = m;
   draw_ready = true;
 }
 
 void loop1() {
     if (draw_ready) {
-      draw_ready = false;
-      Display::draw(input, IMU::getAngle());
+      // draw_ready = false;
+      Metrics m = draw_metrics;
+      State s = draw_state;
+      Display::draw(input, m, s, IMU::getAngle());
     }
     yield();
 }
