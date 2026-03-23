@@ -2,6 +2,7 @@
 #include <Servo.h>
 #include "Display.hpp"
 #include "IMU.hpp"
+#include "PCA9685.hpp"
 #include "types.hpp"
 #include <RF24.h>
 
