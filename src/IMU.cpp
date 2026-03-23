@@ -3,8 +3,6 @@
 namespace {
     MPU6050 _mpu;
 
-    constexpr uint8_t I2C0_SDA  = 20;
-    constexpr uint8_t I2C0_SCL  = 21;
     constexpr uint8_t IMU_INT   = 22;
 
     /*---MPU6050 Control/Status Variables---*/
@@ -30,11 +28,6 @@ namespace {
 
 namespace IMU {
     void init(DisplayHelper dh) {
-
-        Wire.setSDA(I2C0_SDA);
-        Wire.setSCL(I2C0_SCL);
-        Wire.begin();
-        Wire.setClock(400000);
         pinMode(IMU_INT, INPUT);
 
         Serial1.println("Init MPU6050 and test connection...");

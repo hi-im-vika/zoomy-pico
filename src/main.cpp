@@ -21,6 +21,9 @@
 #define THT_MAX     2500
 #define THT_MIN     500
 
+constexpr uint8_t I2C0_SDA  = 20;
+constexpr uint8_t I2C0_SCL  = 21;
+
 InputFrame input = {};
 Metrics draw_metrics = {};
 State draw_state = {};
@@ -51,6 +54,11 @@ void setup() {
   SPI.setCS(SPI0_CSN);
   SPI.setSCK(SPI0_SCK);
   SPI.setMOSI(SPI0_MOSI);
+
+  Wire.setSDA(I2C0_SDA);
+  Wire.setSCL(I2C0_SCL);
+  Wire.begin();
+  Wire.setClock(1000000);
 
   Display::init();
   Display::clear();
