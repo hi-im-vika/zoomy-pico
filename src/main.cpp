@@ -29,6 +29,8 @@ volatile bool draw_ready = false;
 bool connected = false;
 
 /*---Profiling Variables---*/ 
+unsigned long rx_count = 0;
+
 unsigned long t_radio = 0;
 
 unsigned long l_servo = millis();
@@ -87,10 +89,20 @@ void loop() {
 
   uint8_t pipe;
   if (radio.available(&pipe)) {              // is there a payload? get the pipe number that received it
+    unsigned long now = micros();
+    d_radio = now - l_radio;
+    l_radio = micros();
     uint8_t bytes = radio.getPayloadSize();  // get the size of the payload
     radio.read(&input, bytes);             // fetch payload from FIFO
-    // Serial1.printf("[%lu] [d%luus] RX OK\r\n", millis(), d_rx);
+    rx_count++;
   }
+
+  State s = {
+    micros() - l_radio < 500000,
+    l_radio
+  };
+
+  draw_state = s;
   
   IMU::update();
 
