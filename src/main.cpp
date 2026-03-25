@@ -119,13 +119,48 @@ void loop() {
   
   IMU::update();
 
-  if (!draw_state.connected) {
-    int throttle_raw = map(input.ly, -32767, 32767, STR_MIN, STR_MAX);
-    int steering_raw = map(input.rx, -32767, 32767, THT_MIN, THT_MAX);
-    throttle.write(throttle_raw);
-    steering.write(steering_raw);
+  // if (!draw_state.connected) {
+  if (millis() - l_servo > 15) {
+    int on = 0;
+    int off = 0;
+    if (!input.ly) {
+      off = 0;
+        PCA9685::setPWM(0,on,off);
+        PCA9685::setPWM(1,on,off);
+        PCA9685::setPWM(2,on,off);
+        PCA9685::setPWM(3,on,off);
+        PCA9685::setPWM(4,on,off);
+        PCA9685::setPWM(5,on,off);
+        PCA9685::setPWM(6,on,off);
+        PCA9685::setPWM(7,on,off);
+    } else if (input.ly > 0) {
+      off = map(input.ly, 0, 32767, 0, 4095);
+        PCA9685::setPWM(0,on,off);
+        PCA9685::setPWM(1,on,0);
+        PCA9685::setPWM(2,on,off);
+        PCA9685::setPWM(3,on,0);
+        PCA9685::setPWM(4,on,off);
+        PCA9685::setPWM(5,on,0);
+        PCA9685::setPWM(6,on,off);
+        PCA9685::setPWM(7,on,0);
+    } else {
+      off = map(input.ly, 0, -32767, 0, 4095);
+        PCA9685::setPWM(0,on,0);
+        PCA9685::setPWM(1,on,off);
+        PCA9685::setPWM(2,on,0);
+        PCA9685::setPWM(3,on,off);
+        PCA9685::setPWM(4,on,0);
+        PCA9685::setPWM(5,on,off);
+        PCA9685::setPWM(6,on,0);
+        PCA9685::setPWM(7,on,off);
+    }
+    // int throttle_raw = map(input.ly, -32767, 32767, 0, 4095);
+    // int steering_raw = map(input.rx, -32767, 32767, THT_MIN, THT_MAX);
+
+
     l_servo = millis();
   }
+  // }
 
   if (micros() - l_radio > 500000) {
     // failsafe mode activated
