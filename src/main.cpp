@@ -131,6 +131,7 @@ void loop() {
     // failsafe mode activated
     rx_count = d_radio = 0;
     input = {0,0,0,0,0};
+    PCA9685::stopAll();
   }
 
   Metrics m = {
