@@ -64,6 +64,10 @@ void setup() {
   Display::init();
   Display::clear();
 
+  Display::log_add("Init PCA9685...");
+  PCA9685::init();
+  Display::log_append("OK");
+
   // initialize the transceiver on the SPI bus
   Display::log_add("Init RF24...");
   if (!radio.begin()) {
