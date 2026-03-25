@@ -64,11 +64,11 @@ namespace IMU {
         /* Making sure it worked (returns 0 if so) */ 
         if (_devStatus == 0) {
             dh.dispAdd("Calib accel...");
-            _mpu.CalibrateAccel(96);
+            _mpu.CalibrateAccel(80);
             dh.dispAppend("OK");
 
             dh.dispAdd("Calib gyro...");
-            _mpu.CalibrateGyro(96);
+            _mpu.CalibrateGyro(80);
             dh.dispAppend("OK");
 
             _mpu.setDMPEnabled(true);
