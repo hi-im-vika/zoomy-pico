@@ -120,6 +120,11 @@ void loop() {
   IMU::update();
 
   if (!draw_state.connected) {
+    int throttle_raw = map(input.ly, -32767, 32767, STR_MIN, STR_MAX);
+    int steering_raw = map(input.rx, -32767, 32767, THT_MIN, THT_MAX);
+    throttle.write(throttle_raw);
+    steering.write(steering_raw);
+    l_servo = millis();
   }
 
   if (micros() - l_radio > 500000) {
